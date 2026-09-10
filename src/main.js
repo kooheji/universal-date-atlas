@@ -124,7 +124,7 @@ app.innerHTML = `
           <svg viewBox="0 0 19 19"><use href="/icons.svg#github-icon"></use></svg>
         </span>
         <span class="footer-context">Open source:</span>
-        <a href="https://github.com/kooheji" target="_blank" rel="noopener noreferrer">View this project on GitHub</a>
+        <a href="https://github.com/kooheji/universal-date-atlas" target="_blank" rel="noopener noreferrer">View this project on GitHub</a>
       </div>
       <div class="footer-group footer-support">
         <span class="footer-context">Like the tool?</span>
