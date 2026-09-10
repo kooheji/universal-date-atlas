@@ -1,0 +1,534 @@
+:root {
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  color: #f3f5f7;
+  background: #08090c;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  --surface: #101217;
+  --surface-raised: #15181e;
+  --line: #292e37;
+  --line-strong: #3a414d;
+  --muted: #8b929f;
+  --dim: #6f7682;
+  --accent: #d8b66a;
+}
+
+* { box-sizing: border-box; }
+
+html, body, #app {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  overflow: hidden;
+}
+
+#app {
+  display: grid;
+  place-items: center;
+}
+
+body {
+  min-width: 320px;
+  padding: 20px;
+  background: radial-gradient(circle at 50% -20%, #222733 0%, transparent 48%), #08090c;
+}
+
+button, input { font: inherit; }
+button { cursor: pointer; }
+
+.site {
+  display: flex;
+  flex-direction: column;
+  width: min(1480px, calc(133.333dvh - 53.333px), 100%);
+  height: auto;
+  max-height: calc(100dvh - 40px);
+  aspect-ratio: 4 / 3;
+  margin: auto;
+  overflow: hidden;
+  border: 1px solid #303640;
+  border-radius: 16px;
+  background: var(--surface);
+  box-shadow: 0 30px 100px rgba(0, 0, 0, .46), inset 0 1px rgba(255, 255, 255, .025);
+}
+
+.atlas-header {
+  flex: 0 0 auto;
+  display: grid;
+  grid-template-columns: minmax(430px, .95fr) minmax(440px, 1.05fr);
+  align-items: end;
+  gap: clamp(28px, 4vw, 52px);
+  padding: 26px 40px 22px;
+}
+
+.hero { min-width: 0; }
+
+.eyebrow, .section-label {
+  display: block;
+  margin: 0 0 8px;
+  color: var(--accent);
+  font-size: .72rem;
+  font-weight: 760;
+  letter-spacing: .17em;
+}
+
+.hero h1 {
+  margin: 0 0 8px;
+  font-size: clamp(2rem, 2.8vw, 2.85rem);
+  line-height: .98;
+  letter-spacing: -.052em;
+  white-space: nowrap;
+}
+
+.hero h1 span { color: #aeb4bf; font-weight: 520; }
+
+.hero-description {
+  max-width: 660px;
+  margin: 0;
+  color: var(--muted);
+  font-size: .9rem;
+  line-height: 1.5;
+}
+
+.calendar-choice {
+  display: flex;
+  width: max-content;
+  margin: 0 0 8px;
+  padding: 2px;
+  border: 1px solid #343a44;
+  border-radius: 7px;
+  background: #12151a;
+}
+
+.calendar-choice legend {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+}
+
+.calendar-choice label { margin: 0; cursor: pointer; }
+.calendar-choice input { position: absolute; opacity: 0; pointer-events: none; }
+
+.calendar-choice span {
+  display: block;
+  padding: 5px 9px;
+  border-radius: 5px;
+  color: #7f8793;
+  font-size: .65rem;
+  font-weight: 720;
+  line-height: 1;
+}
+
+.calendar-choice input:checked + span { color: #17191e; background: #e7d8b5; }
+.calendar-choice input:focus-visible + span { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+.date-controls {
+  display: grid;
+  grid-template-columns: 92px minmax(130px, 1fr) 72px auto;
+  align-items: end;
+  gap: 8px;
+}
+
+.date-field { display: block; min-width: 0; margin: 0; }
+
+.date-field > span {
+  display: block;
+  margin: 0 0 5px;
+  color: #89919d;
+  font-size: .61rem;
+  font-weight: 700;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+}
+
+.date-controls input,
+.date-controls select {
+  width: 100%;
+  min-width: 0;
+  height: 40px;
+  padding: 0 10px;
+  border: 1px solid #383e49;
+  border-radius: 8px;
+  outline: none;
+  color-scheme: dark;
+  color: #fff;
+  background: #171a20;
+}
+
+.date-controls select { appearance: auto; }
+
+.date-controls input:focus-visible,
+.date-controls select:focus-visible { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(216, 182, 106, .12); }
+
+.date-controls button {
+  height: 40px;
+  padding: 0 21px;
+  border: 1px solid #e8d7ac;
+  border-radius: 8px;
+  color: #111319;
+  background: #f0e4c7;
+  font-size: .84rem;
+  font-weight: 780;
+}
+
+.date-controls button:hover { background: #fff2d2; }
+.date-controls button:focus-visible, .atlas-tab:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
+
+.atlas-tabs {
+  flex: 0 0 auto;
+  display: flex;
+  min-height: 49px;
+  padding: 0 28px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  scrollbar-width: none;
+}
+
+.atlas-tabs::-webkit-scrollbar { display: none; }
+
+.atlas-tab {
+  position: relative;
+  flex: 0 0 auto;
+  padding: 0 16px;
+  border: 0;
+  color: #777f8c;
+  background: transparent;
+  font-size: .72rem;
+  font-weight: 760;
+  letter-spacing: .11em;
+  text-transform: uppercase;
+}
+
+.atlas-tab:hover:not(:disabled) { color: #c6cbd3; }
+.atlas-tab[aria-selected="true"] { color: #fff; }
+
+.atlas-tab[aria-selected="true"]::after {
+  content: '';
+  position: absolute;
+  right: 16px;
+  bottom: 0;
+  left: 16px;
+  height: 2px;
+  background: var(--accent);
+}
+
+.atlas-tab:disabled { cursor: not-allowed; opacity: .42; }
+
+.coming-soon {
+  margin-left: 5px;
+  padding: 2px 4px;
+  border: 1px solid #3a404a;
+  border-radius: 3px;
+  font-size: .54rem;
+  letter-spacing: .05em;
+}
+
+.atlas-workspace { flex: 1 1 auto; min-height: 0; overflow: hidden; }
+
+.atlas-footer {
+  flex: 0 0 48px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  min-width: 0;
+  padding: 0 28px;
+  border-top: 1px solid var(--line);
+  color: var(--muted);
+  background: #0d0f13;
+  font-size: .72rem;
+}
+
+.footer-group { display: flex; align-items: center; gap: 7px; min-width: 0; }
+.footer-group a { color: var(--accent); font-weight: 700; text-decoration: none; }
+.footer-group a:hover { color: #f3d890; text-decoration: underline; text-underline-offset: 3px; }
+
+.github-mark {
+  display: inline-flex;
+  flex: 0 0 18px;
+  width: 18px;
+  height: 18px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: var(--accent);
+}
+
+.github-mark svg { width: 15px; height: 15px; }
+
+.support-link {
+  padding: 7px 12px;
+  border: 1px solid #53482f;
+  border-radius: 999px;
+  line-height: 1;
+}
+
+.footer-group .support-link:hover { border-color: var(--accent); text-decoration: none; }
+
+.atlas-panel {
+  width: 100%;
+  height: 100%;
+  padding: 28px 36px 36px;
+  overflow-x: hidden;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: #3a414c transparent;
+}
+
+.atlas-panel::-webkit-scrollbar { width: 8px; }
+.atlas-panel::-webkit-scrollbar-thumb { border-radius: 12px; background: #3a414c; }
+.atlas-panel[hidden] { display: none !important; }
+
+.overview {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  align-items: stretch;
+  align-content: start;
+  gap: 16px;
+  padding-block: 30px;
+}
+
+.date-profile {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  overflow: hidden;
+  border: 1px solid var(--line-strong);
+  border-radius: 13px;
+  background: linear-gradient(145deg, #16191f, #12151a);
+}
+
+.date-profile--hijri { border-color: #51472f; }
+
+.date-profile-main {
+  display: flex;
+  min-height: 172px;
+  align-items: center;
+  gap: 18px;
+  padding: 20px 22px;
+}
+
+.sigil-stage {
+  position: relative;
+  flex: 0 0 112px;
+  width: 112px;
+  height: 112px;
+  overflow: hidden;
+  border: 1px solid #333a45;
+  border-radius: 12px;
+  background: radial-gradient(circle, #1e2229, #101217 72%);
+}
+
+.date-profile--hijri .sigil-stage { border-color: #51472f; }
+.sigil-stage canvas { display: block; width: 100%; height: 100%; }
+.sigil-stage--fallback { display: grid; place-items: center; color: var(--accent); font-size: 2.6rem; }
+
+.date-profile-copy { min-width: 0; }
+.date-profile-copy .section-label { margin-bottom: 9px; }
+
+.date-profile-copy h2 {
+  margin: 0 0 9px;
+  overflow-wrap: anywhere;
+  color: #fff;
+  font-size: clamp(1.7rem, 2.65vw, 2.55rem);
+  line-height: 1.02;
+  letter-spacing: -.045em;
+}
+
+.date-profile-copy p { margin: 0; color: var(--muted); font-size: .78rem; line-height: 1.4; }
+.date-profile--gregorian .date-profile-copy p { font-size: 1rem; }
+
+.profile-facts {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  margin-top: auto;
+  border-top: 1px solid var(--line);
+  background: var(--line);
+  gap: 1px;
+}
+
+.date-profile--hijri .profile-facts { border-top-color: #423a2a; }
+.profile-fact { min-width: 0; padding: 16px 15px; background: var(--surface-raised); }
+
+.profile-fact span {
+  display: block;
+  margin-bottom: 7px;
+  color: var(--dim);
+  font-size: .62rem;
+  font-weight: 700;
+  letter-spacing: .075em;
+  text-transform: uppercase;
+}
+
+.profile-fact strong { display: block; overflow-wrap: anywhere; color: #fff; font-size: 1rem; line-height: 1.25; }
+
+.section-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 24px;
+  margin-bottom: 22px;
+}
+
+.section-heading h2 { margin: 0; font-size: clamp(1.55rem, 2.7vw, 2.45rem); line-height: 1.08; letter-spacing: -.035em; }
+.section-description { max-width: 700px; margin: 8px 0 0; color: var(--dim); font-size: .77rem; line-height: 1.5; }
+.count { flex: 0 0 auto; color: var(--muted); font-size: .78rem; white-space: nowrap; }
+
+.calendar-grid, .culture-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.result-card {
+  min-width: 0;
+  padding: 17px;
+  border: 1px solid var(--line);
+  border-radius: 11px;
+  background: linear-gradient(145deg, #16191f, #13161b);
+}
+
+.result-card:hover { border-color: #3a414c; }
+.calendar-card--disabled { opacity: .46; }
+.card-header { display: flex; align-items: flex-start; gap: 11px; margin-bottom: 15px; }
+
+.card-symbol {
+  display: inline-flex;
+  flex: 0 0 44px;
+  width: 44px;
+  height: 44px;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--line-strong);
+  border-radius: 8px;
+  color: #e8d9b5;
+  background: #111318;
+  font-family: "Segoe UI Symbol", "Noto Sans Symbols 2", ui-sans-serif, sans-serif;
+  font-size: 1.18rem;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -.04em;
+  white-space: nowrap;
+}
+
+.card-meta { min-width: 0; display: flex; flex-direction: column; align-items: flex-start; gap: 6px; padding-top: 2px; }
+
+.badge {
+  padding: 4px 6px;
+  border: 1px solid #353b45;
+  border-radius: 4px;
+  color: #aab1bd;
+  font-size: .58rem;
+  font-weight: 780;
+  letter-spacing: .1em;
+}
+
+.family { overflow-wrap: anywhere; color: var(--dim); font-size: .69rem; line-height: 1.25; }
+.result-card h3 { margin: 0 0 7px; color: #9ea5b0; font-size: .8rem; font-weight: 650; }
+
+.converted-date, .culture-value, .astro-value {
+  display: block;
+  margin: 0 0 15px;
+  overflow-wrap: anywhere;
+  color: #fff;
+  font-size: clamp(1.13rem, 1.7vw, 1.42rem);
+  line-height: 1.22;
+  letter-spacing: -.025em;
+}
+
+.chronology-meta { margin: -7px 0 13px; color: #8c94a0; font-size: .68rem; line-height: 1.4; }
+.card-description { margin: 0; color: #727a86; font-size: .74rem; line-height: 1.48; }
+
+.astronomy-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1px;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 11px;
+  background: var(--line);
+}
+
+.astronomy-card { border: 0; border-radius: 0; }
+.season-panel { margin-top: 30px; }
+.season-panel-heading { margin-bottom: 14px; }
+.season-panel-heading h3 { margin: 0; font-size: 1.22rem; letter-spacing: -.02em; }
+.season-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; }
+
+.season-event {
+  display: flex;
+  gap: 12px;
+  min-width: 0;
+  padding: 14px;
+  border: 1px solid var(--line);
+  border-radius: 9px;
+  background: var(--surface-raised);
+}
+
+.season-event .card-symbol { flex-basis: 38px; width: 38px; height: 38px; font-size: 1rem; }
+.season-event div { min-width: 0; }
+.season-event span, .season-event strong, .season-event small { display: block; }
+.season-event span { margin-bottom: 7px; color: var(--dim); font-size: .67rem; font-weight: 700; letter-spacing: .05em; text-transform: uppercase; }
+.season-event strong { margin-bottom: 3px; font-size: .85rem; line-height: 1.35; }
+.season-event small { color: #676e79; font-size: .66rem; }
+
+.culture-note { max-width: 760px; margin-top: 25px; padding: 2px 0 2px 16px; border-left: 2px solid #3c424c; }
+.culture-note strong { display: block; margin-bottom: 5px; font-size: .78rem; }
+.culture-note p { margin: 0; color: var(--dim); font-size: .73rem; line-height: 1.5; }
+
+@media (max-width: 1050px) {
+  .atlas-header { grid-template-columns: minmax(0, 1fr) minmax(330px, 480px); gap: 28px; padding-inline: 30px; }
+  .hero h1 { white-space: normal; }
+  .calendar-grid, .culture-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .astronomy-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .season-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+@media (max-width: 760px) {
+  body { padding: 7px; }
+  .site { border-radius: 11px; }
+  .atlas-header { display: block; padding: 18px 18px 15px; }
+  .hero h1 { font-size: clamp(1.75rem, 7vw, 2.5rem); }
+  .hero-description { margin-bottom: 14px; font-size: .78rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .date-controls button { padding-inline: 15px; }
+  .atlas-tabs { min-height: 45px; padding-inline: 7px; }
+  .atlas-tab { padding-inline: 13px; font-size: .67rem; }
+  .atlas-tab[aria-selected="true"]::after { right: 13px; left: 13px; }
+  .atlas-panel { padding: 22px 18px 28px; }
+  .atlas-footer { flex-basis: 44px; padding-inline: 16px; font-size: .68rem; }
+  .overview { grid-template-columns: 1fr; align-content: start; gap: 14px; padding-block: 18px; }
+  .date-profile-main { min-height: 142px; }
+  .sigil-stage { flex-basis: 88px; width: 88px; height: 88px; }
+  .astronomy-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+@media (max-width: 520px) {
+  .eyebrow { font-size: .62rem; }
+  .hero h1 { margin-bottom: 6px; }
+  .hero-description { margin-bottom: 10px; font-size: .72rem; line-height: 1.35; white-space: normal; }
+  .date-controls { grid-template-columns: 82px minmax(105px, 1fr) 62px; }
+  .date-controls button { grid-column: 1 / -1; width: 100%; }
+  .calendar-grid, .culture-grid, .astronomy-grid, .season-grid { grid-template-columns: 1fr; }
+  .section-heading { align-items: flex-start; flex-direction: column; gap: 8px; }
+  .date-profile-main { gap: 12px; padding: 14px; }
+  .date-profile-copy h2 { font-size: clamp(1.45rem, 7vw, 2rem); }
+  .profile-fact { padding: 12px 10px; }
+  .atlas-footer { gap: 10px; padding-inline: 12px; }
+  .footer-context { display: none; }
+  .footer-group:first-child a { max-width: 118px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .support-link { padding: 6px 9px; }
+}
+
+@media (max-height: 650px) and (min-width: 761px) {
+  .atlas-header { padding-block: 16px; }
+  .hero-description { display: none; }
+  .hero h1 { font-size: 2rem; margin-bottom: 0; }
+  .atlas-tabs { min-height: 43px; }
+  .date-profile-main { min-height: 126px; padding-block: 12px; }
+  .sigil-stage { flex-basis: 82px; width: 82px; height: 82px; }
+  .profile-fact { padding-block: 10px; }
+}
