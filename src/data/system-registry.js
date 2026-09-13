@@ -1,4 +1,5 @@
 import { CALENDARS } from './calendars'
+import { FICTION_SYSTEMS } from './fiction-registry'
 
 
 /*
@@ -71,13 +72,6 @@ const chronologySystems = [
   },
 
   {
-    id: 'world-calendar',
-    name: 'World Calendar',
-    category: 'chronology',
-    family: 'Reform',
-  },
-
-  {
     id: 'discordian',
     name: 'Discordian Calendar',
     category: 'chronology',
@@ -127,8 +121,15 @@ const chronologySystems = [
   },
 
   {
-    id: 'unix-date',
-    name: 'Unix Epoch',
+    id: 'unix-time',
+    name: 'Unix Time / Unix Epoch',
+    category: 'chronology',
+    family: 'Computing',
+  },
+
+  {
+    id: 'unix-day-number',
+    name: 'Unix Day Number',
     category: 'chronology',
     family: 'Computing',
   },
@@ -139,6 +140,53 @@ const chronologySystems = [
     category: 'chronology',
     family: 'Navigation',
   },
+
+  {
+    id: 'gps-day',
+    name: 'GPS Day',
+    category: 'chronology',
+    family: 'Navigation',
+  },
+
+  {
+    id: 'seleucid-era',
+    name: 'Seleucid Era',
+    category: 'chronology',
+    family: 'Hellenistic',
+  },
+
+  {
+    id: 'olympiad-dating',
+    name: 'Olympiad Dating',
+    category: 'chronology',
+    family: 'Ancient Greek',
+  },
+
+  {
+    id: 'amazigh-era',
+    name: 'Amazigh Era',
+    category: 'chronology',
+    family: 'North African',
+  },
+
+  {
+    id: 'maya-long-count',
+    name: 'Maya Long Count',
+    category: 'chronology',
+    family: 'Maya',
+  },
+
+  ...[
+    ['alexandrian-era', 'Alexandrian Era', 'Alexandrian'],
+    ['indiction-cycle', 'Indiction Cycle', 'Roman / Byzantine'],
+    ['era-of-martyrs', 'Diocletian / Era of Martyrs', 'Coptic'],
+    ['spanish-era', 'Spanish Era', 'Iberian'],
+  ].map(([id, name, family]) => ({
+    id,
+    name,
+    category: 'chronology',
+    family,
+  })),
 
 ].map((system) => ({
 
@@ -156,32 +204,45 @@ const chronologySystems = [
 
 
 const astronomySystems = [
-
-  'Moon phase',
-
-  'Moon illumination',
-
-  'Moon phase angle',
-
-  'Lunar illumination angle',
-
-  'Moon distance',
-
-  'Moon magnitude',
-
-  'Moon ecliptic longitude',
-
-  'Moon ecliptic latitude',
-
-  'Sun ecliptic longitude',
-
-  'Sun ecliptic latitude',
-
-  'Northern season',
-
-  'Southern season',
-
-  'Greenwich sidereal time',
+  'Moon Phase',
+  'Moon Illumination',
+  'Moon Age',
+  'Moon Phase Angle',
+  'Lunar Illumination Angle',
+  'Moon Apparent Magnitude',
+  'Earth–Moon Distance',
+  'Moon Ecliptic Longitude',
+  'Moon Ecliptic Latitude',
+  'Moon Declination',
+  'Moon Astronomical Constellation',
+  'Previous New Moon',
+  'Next New Moon',
+  'Previous Full Moon',
+  'Next Full Moon',
+  'Sun Ecliptic Longitude',
+  'Sun Ecliptic Latitude',
+  'Solar Declination',
+  'Earth–Sun Distance',
+  'Sun Astronomical Constellation',
+  'Mercury Position',
+  'Venus Position',
+  'Mars Position',
+  'Jupiter Position',
+  'Saturn Position',
+  'Uranus Position',
+  'Neptune Position',
+  'Greenwich Sidereal Time',
+  'Julian Astronomical Instant',
+  'Solar Longitude',
+  'Seasonal Position Through Earth’s Orbit',
+  'Northern Hemisphere Season',
+  'Southern Hemisphere Season',
+  'March Equinox',
+  'June Solstice',
+  'September Equinox',
+  'December Solstice',
+  'Nearest Equinox',
+  'Nearest Solstice',
 
 ].map((name) => ({
 
@@ -224,8 +285,6 @@ const traditionSystems = [
   'Maya Haabʼ',
 
   'Maya Calendar Round',
-
-  'Maya Long Count',
 
 ].map((name) => ({
 
@@ -290,82 +349,59 @@ const bahrainCalendar = {
 
 
 /* ========================================
+   Additional calendar implementations
+======================================== */
+
+const additionalCalendars = [
+  ['zoroastrian', 'Zoroastrian Calendar', 'Iranian', 'astronomical-model'],
+  ['bengali', 'Bengali Calendar', 'South Asian', 'library'],
+  ['tamil', 'Tamil Calendar', 'South Asian', 'astronomical-model'],
+  ['malayalam', 'Malayalam Calendar', 'South Asian', 'astronomical-model'],
+  ['nepali-bikram-sambat', 'Bikram Sambat', 'South Asian', 'library'],
+  ['vikram-samvat', 'Vikram Samvat', 'Indian', 'astronomical-model'],
+  ['jain', 'Jain Calendar', 'Indian', 'astronomical-model'],
+  ['nanakshahi', 'Nanakshahi Calendar', 'Sikh', 'calculated'],
+  ['thai-lunar', 'Thai Lunar Calendar', 'Southeast Asian', 'astronomical-model'],
+  ['burmese', 'Burmese Calendar', 'Southeast Asian', 'astronomical-model'],
+  ['khmer', 'Khmer Calendar', 'Southeast Asian', 'astronomical-model'],
+  ['balinese-pawukon', 'Balinese Pawukon', 'Indonesian', 'library'],
+  ['javanese', 'Javanese Calendar', 'Indonesian', 'calculated'],
+  ['armenian', 'Armenian Calendar', 'Christian & Liturgical', 'calculated'],
+  ['bahai', 'Baháʼí / Badíʿ Calendar', 'Christian & Liturgical', 'astronomical-model'],
+  ['ancient-egyptian', 'Ancient Egyptian Civil Calendar', 'Ancient Egyptian', 'calculated'],
+  ['berber', 'Berber Calendar', 'North African', 'calculated'],
+  ['babylonian', 'Babylonian Calendar', 'Mesopotamian', 'astronomical-model'],
+  ['assyrian', 'Modern Assyrian Calendar', 'Mesopotamian', 'calculated'],
+  ['attic', 'Attic / Athenian Reconstruction', 'Ancient Greek', 'astronomical-model'],
+  ['roman-republican', 'Roman Republican Reconstruction', 'Roman', 'calculated'],
+  ['maya-tzolkin', 'Maya Tzolkʼin', 'Maya', 'calculated'],
+  ['maya-haab', 'Maya Haabʼ', 'Maya', 'calculated'],
+  ['maya-calendar-round', 'Maya Calendar Round', 'Maya', 'calculated'],
+  ['aztec-xiuhpohualli', 'Xiuhpohualli', 'Aztec', 'calculated'],
+  ['aztec-tonalpohualli', 'Tonalpohualli', 'Aztec', 'calculated'],
+  ['inca', 'Inca Seasonal Reference', 'Andean', 'calculated'],
+  ['igbo', 'Igbo Calendar', 'West African', 'calculated'],
+].map(([id, name, family, accuracy]) => ({
+  id,
+  name,
+  category: 'calendar',
+  family,
+  status: 'implemented',
+  inputSupported: false,
+  outputSupported: true,
+  accuracy,
+}))
+
+
+/* ========================================
    Planned calendar catalogue
 ======================================== */
 
 const plannedCalendars = [
 
-  ['revised-julian', 'Revised Julian', 'Christian'],
-
-  ['armenian', 'Armenian Calendar', 'Christian'],
-
-  ['bahai', 'Baháʼí / Badíʿ Calendar', 'Baháʼí'],
-
-  ['bengali', 'Bengali Calendar', 'South Asian'],
-
-  ['tamil', 'Tamil Calendar', 'South Asian'],
-
-  ['malayalam', 'Malayalam Calendar', 'South Asian'],
-
-  ['nepali-bikram-sambat', 'Bikram Sambat', 'South Asian'],
-
-  ['vikram-samvat', 'Vikram Samvat', 'Indian'],
-
-  ['jain', 'Jain Calendar', 'Indian'],
-
-  ['nanakshahi', 'Nanakshahi Calendar', 'Sikh'],
-
-  ['thai-lunar', 'Thai Lunar Calendar', 'Southeast Asian'],
-
-  ['burmese', 'Burmese Calendar', 'Southeast Asian'],
-
-  ['khmer', 'Khmer Calendar', 'Southeast Asian'],
-
-  ['balinese-pawukon', 'Balinese Pawukon', 'Indonesian'],
-
-  ['javanese', 'Javanese Calendar', 'Indonesian'],
-
-  ['ancient-egyptian', 'Ancient Egyptian Civil Calendar', 'Ancient Egyptian'],
-
-  ['babylonian', 'Babylonian Calendar', 'Mesopotamian'],
-
-  ['assyrian', 'Assyrian Calendar', 'Mesopotamian'],
-
-  ['seleucid', 'Seleucid Era', 'Hellenistic'],
-
-  ['attic', 'Attic Calendar', 'Ancient Greek'],
-
-  ['olympiad', 'Olympiad Dating', 'Ancient Greek'],
-
-  ['roman-republican', 'Roman Republican Calendar', 'Roman'],
-
-  ['aztec-xiuhpohualli', 'Xiuhpohualli', 'Aztec'],
-
-  ['aztec-tonalpohualli', 'Tonalpohualli', 'Aztec'],
-
   ['maya-long-count', 'Maya Long Count', 'Maya'],
 
-  ['maya-tzolkin', 'Maya Tzolkʼin', 'Maya'],
-
-  ['maya-haab', 'Maya Haabʼ', 'Maya'],
-
-  ['inca', 'Inca Calendar', 'Andean'],
-
-  ['zoroastrian', 'Zoroastrian Calendar', 'Iranian'],
-
-  ['alexandrian', 'Alexandrian Calendar', 'Historical'],
-
   ['geez', 'Geʽez Calendar', 'Ethiopian'],
-
-  ['berber', 'Berber Calendar', 'North African'],
-
-  ['amazigh', 'Amazigh Era', 'North African'],
-
-  ['igbo', 'Igbo Calendar', 'West African'],
-
-  ['akan', 'Akan Calendar', 'West African'],
-
-  ['yoruba', 'Yoruba Calendar', 'West African'],
 
 ].map(
   ([
@@ -403,65 +439,7 @@ const plannedCalendars = [
    Planned astronomical systems
 ======================================== */
 
-const plannedAstronomy = [
-
-  'Sun constellation',
-
-  'Moon constellation',
-
-  'Moon age',
-
-  'Next new moon',
-
-  'Next full moon',
-
-  'Previous new moon',
-
-  'Previous full moon',
-
-  'Mercury position',
-
-  'Venus position',
-
-  'Mars position',
-
-  'Jupiter position',
-
-  'Saturn position',
-
-  'Uranus position',
-
-  'Neptune position',
-
-  'Nearest equinox',
-
-  'Nearest solstice',
-
-  'Solar declination',
-
-  'Lunar declination',
-
-  'Earth–Sun distance',
-
-].map((name) => ({
-
-  id:
-    `planned-${name
-      .toLowerCase()
-      .replaceAll(' ', '-')}`,
-
-  name,
-
-  category:
-    'astronomy',
-
-  family:
-    'Astronomical',
-
-  status:
-    'planned',
-
-}))
+const plannedAstronomy = []
 
 
 /* ========================================
@@ -511,65 +489,13 @@ const plannedTraditions = [
 }))
 
 
-/* ========================================
-   Fiction — catalogue only for now
-======================================== */
-
-const plannedFiction = [
-
-  ['star-trek-stardate', 'Star Trek Stardate'],
-
-  ['star-wars-galactic', 'Star Wars Galactic Dating'],
-
-  ['tolkien-shire', 'Shire Reckoning'],
-
-  ['tolkien-kings', 'Tolkien King’s Reckoning'],
-
-  ['elder-scrolls', 'The Elder Scrolls Era Dating'],
-
-  ['warhammer-imperial', 'Warhammer 40,000 Imperial Dating'],
-
-  ['fallout', 'Fallout Timeline'],
-
-  ['halo', 'Halo Military Calendar'],
-
-  ['mass-effect', 'Mass Effect Timeline'],
-
-  ['dune', 'Dune Imperial Dating'],
-
-  ['foundation', 'Foundation Galactic Era'],
-
-].map(
-  ([
-    id,
-    name,
-  ]) => ({
-
-    id,
-
-    name,
-
-    category:
-      'fiction',
-
-    family:
-      'Fictional',
-
-    status:
-      'planned',
-
-    canonicality:
-      'research-required',
-
-  }),
-)
-
-
 export const SYSTEM_REGISTRY = [
 
   ...calendarSystems,
 
   bahrainCalendar,
+
+  ...additionalCalendars,
 
   ...chronologySystems,
 
@@ -583,7 +509,7 @@ export const SYSTEM_REGISTRY = [
 
   ...plannedTraditions,
 
-  ...plannedFiction,
+  ...FICTION_SYSTEMS,
 
 ]
 

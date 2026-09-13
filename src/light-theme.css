@@ -1,0 +1,267 @@
+:root[data-theme="light"] {
+  color-scheme: light;
+  color: #20242b;
+  background: #e8e3d9;
+  --surface: #f7f4ed;
+  --surface-raised: #fdfbf6;
+  --line: #d7d1c6;
+  --line-strong: #b9b1a3;
+  --muted: #686b70;
+  --dim: #858078;
+  --accent: #8068c8;
+}
+
+:root[data-theme="light"] body {
+  background: radial-gradient(circle at 50% -20%, #fffdf8 0%, transparent 50%), #e8e3d9;
+}
+
+:root[data-theme="light"] .site {
+  border-color: #c7c0b4;
+  box-shadow: 0 30px 90px rgba(66, 55, 36, .18), inset 0 1px rgba(255, 255, 255, .8);
+}
+
+:root[data-theme="light"] .hero h1 span {
+  color: #72767d;
+}
+
+:root[data-theme="light"] .calendar-choice,
+:root[data-theme="light"] .compact-switch {
+  border-color: #c8c1b6;
+  background: rgba(255, 255, 255, .54);
+}
+
+:root[data-theme="light"] .calendar-choice span,
+:root[data-theme="light"] .compact-switch-button,
+:root[data-theme="light"] .atlas-tab {
+  color: #71757b;
+}
+
+:root[data-theme="light"] .calendar-choice input:checked + span,
+:root[data-theme="light"] .compact-switch-button.is-active {
+  color: #fffdf8;
+  background: #8068c8;
+}
+
+:root[data-theme="light"] .atlas-tab:hover:not(:disabled),
+:root[data-theme="light"] .atlas-tab[aria-selected="true"] {
+  color: #20242b;
+}
+
+:root[data-theme="light"] .tool-badge {
+  color: #725bb6;
+  background: rgba(255, 255, 255, .5);
+}
+
+:root[data-theme="light"] .tool-badge:hover,
+:root[data-theme="light"] .compact-switch-button:hover {
+  color: #59429d;
+}
+
+:root[data-theme="light"] .date-field > span,
+:root[data-theme="light"] .date-field--location > label {
+  color: #74777c;
+}
+
+:root[data-theme="light"] .date-controls input,
+:root[data-theme="light"] .date-controls select,
+:root[data-theme="light"] .date-controls .location-button {
+  border-color: #c8c1b6;
+  color-scheme: light;
+  color: #20242b;
+  background: #fffdf8;
+}
+
+:root[data-theme="light"] .date-controls .location-button {
+  color: #8068c8;
+}
+
+:root[data-theme="light"] .date-controls .location-button:hover {
+  color: #59429d;
+  background: #f3ede1;
+}
+
+:root[data-theme="light"] .date-controls > button {
+  border-color: #725bb6;
+  color: #fffdf8;
+  background: #8068c8;
+}
+
+:root[data-theme="light"] .date-controls > button:hover {
+  background: #6d55b4;
+}
+
+:root[data-theme="light"] .atlas-footer {
+  color: #6d7075;
+}
+
+:root[data-theme="light"] .github-mark {
+  color: #8068c8;
+  background: transparent;
+}
+
+:root[data-theme="light"] .github-mark svg {
+  width: 18px;
+  height: 18px;
+  fill: currentColor;
+}
+
+:root[data-theme="light"] .month-card,
+:root[data-theme="light"] .profile-fact {
+  background: rgba(255, 255, 255, .45);
+}
+
+:root[data-theme="light"] :is(
+  .date-profile-copy h2,
+  .profile-fact strong,
+  .month-card-title,
+  .month-day-number,
+  .section-heading h2,
+  .calendar-family-heading h3,
+  .calendar-card h4,
+  .converted-date,
+  .culture-value,
+  .astro-value,
+  .fiction-value,
+  .sky-group > header h3,
+  .sky-metric strong,
+  .culture-note strong
+) {
+  color: #20242b;
+}
+
+:root[data-theme="light"] .month-day-muted .month-day-number,
+:root[data-theme="light"] .month-day--adjacent .month-day-number {
+  color: #a39e95;
+}
+
+:root[data-theme="light"] .month-weekday,
+:root[data-theme="light"] .month-day {
+  background: #fdfbf6;
+}
+
+:root[data-theme="light"] .month-weekday--weekend,
+:root[data-theme="light"] .month-day--weekend {
+  background: #f5e4e2;
+}
+
+:root[data-theme="light"] .month-weekday--weekend,
+:root[data-theme="light"] .month-day--weekend .month-day-number {
+  color: #a44e53;
+}
+
+:root[data-theme="light"] .month-day--weekend.month-day--adjacent .month-day-number {
+  color: #bb8b8e;
+}
+
+:root[data-theme="light"] .month-day--selected,
+:root[data-theme="light"] .month-day--selected.month-day--weekend {
+  background: #b9a7ec;
+}
+
+:root[data-theme="light"] .month-day--selected .month-day-number,
+:root[data-theme="light"] .month-day--selected.month-day--weekend .month-day-number {
+  color: #17191e;
+}
+
+:root[data-theme="light"] .calendar-family-index {
+  background: linear-gradient(180deg, var(--surface) 76%, rgba(247, 244, 237, .96));
+}
+
+:root[data-theme="light"] .calendar-family-index a {
+  color: #74777c;
+  background: rgba(255, 255, 255, .42);
+}
+
+:root[data-theme="light"] .calendar-family-index a::after {
+  border-color: #c8c1b6;
+  color: #fffdf8;
+  background: #28251f;
+}
+
+:root[data-theme="light"] .calendar-family-index a:hover,
+:root[data-theme="light"] .calendar-family-index a:focus-visible,
+:root[data-theme="light"] .result-card:hover {
+  border-color: #a492db;
+}
+
+:root[data-theme="light"] .result-card,
+:root[data-theme="light"] .sky-group {
+  background: linear-gradient(145deg, #fffdf8, #f4f0e8);
+}
+
+:root[data-theme="light"] .calendar-card .card-description,
+:root[data-theme="light"] .card-description,
+:root[data-theme="light"] .fiction-description,
+:root[data-theme="light"] .tradition-meta,
+:root[data-theme="light"] .chronology-meta,
+:root[data-theme="light"] .sky-group > header p,
+:root[data-theme="light"] .sky-metric > div > span,
+:root[data-theme="light"] .sky-metric small {
+  color: #73767b;
+}
+
+:root[data-theme="light"] .card-symbol {
+  border-color: #c8c1b6;
+  color: #8068c8;
+  background: #f4efe5;
+}
+
+:root[data-theme="light"] :is(
+  .sky-group[data-sky-group="moon"],
+  .sky-group[data-sky-group="sun"],
+  .sky-group[data-sky-group="earth-time"],
+  .sky-group[data-sky-group="seasons"]
+) .sky-metric {
+  border-color: rgba(125, 112, 88, .25);
+  background: rgba(255, 253, 248, .72);
+}
+
+:root[data-theme="light"] .culture-note {
+  border-left-color: #b4ab9d;
+}
+
+:root[data-theme="light"] .calendar-card-symbol .calendar-symbol-svg,
+:root[data-theme="light"] .calendar-card-symbol .chronology-symbol-svg,
+:root[data-theme="light"] .calendar-card-symbol .tradition-symbol-svg,
+:root[data-theme="light"] .calendar-card-symbol .fiction-symbol-svg {
+  background: rgba(128, 104, 200, .68);
+}
+
+:root[data-theme="light"] .calendar-card-symbol {
+  -webkit-text-stroke-color: rgba(128, 104, 200, .68);
+}
+
+:root[data-theme="light"] .calendar-card-symbol .menorah-symbol,
+:root[data-theme="light"] .calendar-card-symbol .roman-eagle-symbol {
+  stroke: rgba(128, 104, 200, .68);
+}
+
+:root[data-theme="light"] :is(
+  .fiction-family,
+  .fiction-provenance,
+  .tradition-kind,
+  .tradition-family-heading span,
+  .sky-title-symbol
+) {
+  color: #8068c8;
+}
+
+:root[data-theme="light"] .sky-metric-symbol,
+:root[data-theme="light"] .sky-group[data-sky-group="planets"] .sky-metric-symbol {
+  color: #9b83de !important;
+}
+
+:root[data-theme="light"] .sky-group[data-sky-group="planets"] .sky-metric:nth-child(2) .sky-metric-symbol,
+:root[data-theme="light"] .sky-group[data-sky-group="planets"] .sky-metric:nth-child(3) .sky-metric-symbol {
+  -webkit-text-stroke-color: #9b83de;
+}
+
+:root[data-theme="light"] :is(
+  .sigil-stage,
+  .sky-moon-stage,
+  .sky-sun-stage,
+  .sky-earth-stage,
+  .sky-seasons-stage
+) canvas {
+  filter: hue-rotate(215deg) saturate(.82);
+}

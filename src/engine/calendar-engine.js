@@ -1,7 +1,10 @@
 import { Temporal } from 'temporal-polyfill/full'
 
 function getLocale(calendarId) {
-  return `en-US-u-ca-${calendarId}`
+  // Use one conventional order throughout the atlas: day, month, year.
+  // Calendar-specific structures (cycles, pillars, long counts, and similar
+  // systems) are formatted by their own engines and are intentionally untouched.
+  return `en-GB-u-ca-${calendarId}`
 }
 
 export function createCanonicalDate(isoDate) {
@@ -45,15 +48,46 @@ export function convertCalendar(canonicalDate, calendar) {
 
       eraYear: converted.eraYear ?? null,
     }
-  } catch (error) {
-    return {
-      ...calendar,
+  } catch (temporalError) {
+    try {
+      const formatter = new Intl.DateTimeFormat(
+        getLocale(calendar.id),
+        {
+          day: 'numeric',
+          month: 'long',
+          year: 'numeric',
+          era: 'short',
+          timeZone: 'UTC',
+        },
+      )
 
-      status: 'unsupported',
+      if (formatter.resolvedOptions().calendar !== calendar.id) {
+        throw new Error(`Calendar ${calendar.id} is not supported by Intl`)
+      }
 
-      formatted: 'Not available in this browser',
+      const date = new Date(Date.UTC(
+        canonicalDate.year,
+        canonicalDate.month - 1,
+        canonicalDate.day,
+      ))
 
-      error: error.message,
+      return {
+        ...calendar,
+        status: 'ok',
+        formatted: formatter.format(date),
+        year: null,
+        month: null,
+        day: null,
+        era: null,
+        eraYear: null,
+      }
+    } catch (intlError) {
+      return {
+        ...calendar,
+        status: 'unsupported',
+        formatted: 'Not available in this browser',
+        error: `${temporalError.message}; ${intlError.message}`,
+      }
     }
   }
 }

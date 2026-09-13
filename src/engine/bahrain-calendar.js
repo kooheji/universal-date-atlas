@@ -4,6 +4,7 @@ import { Temporal } from 'temporal-polyfill/full'
 const MECCA = new Astronomy.Observer(21.4225, 39.8262, 300)
 const DAY_MS = 86400000
 const MECCA_OFFSET_MS = 3 * 60 * 60 * 1000
+const MOON_SEMIDIAMETER_DEGREES = 0.26
 
 const MONTHS = [
   'Muharram', 'Safar', 'Rabiʻ I', 'Rabiʻ II',
@@ -45,7 +46,9 @@ export function getBahrainHijriMonthStart(year, month) {
     const moon = Astronomy.Equator(Astronomy.Body.Moon, sunset, MECCA, true, true)
     const altitude = Astronomy.Horizon(sunset, MECCA, moon.ra, moon.dec, 'normal').altitude
 
-    if (altitude > 0) {
+    // Bahrain's published criterion requires the whole lunar disc—not only
+    // its centre—to be above the horizon at Makkah sunset.
+    if (altitude > MOON_SEMIDIAMETER_DEGREES) {
       const sunsetInMecca = new Date(sunset.getTime() + MECCA_OFFSET_MS)
       return Date.UTC(
         sunsetInMecca.getUTCFullYear(),
@@ -103,7 +106,8 @@ export function getBahrainHijriDate(isoDate) {
     year,
     month,
     day,
-    formatted: `${MONTHS[month - 1]} ${day}, ${year} AH`,
+    monthName: MONTHS[month - 1],
+    formatted: `${day} ${MONTHS[month - 1]} ${year} AH`,
     meta: 'Calculated from the published Makkah conjunction-and-horizon criterion',
   }
 }

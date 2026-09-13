@@ -260,6 +260,88 @@ function jdnToJulian(jdn) {
 
 
 /* ========================================
+   Revised Julian calendar
+======================================== */
+
+function isRevisedJulianLeapYear(year) {
+  if (year % 4 !== 0) return false
+  if (year % 100 !== 0) return true
+
+  const remainder = mod(year, 900)
+  return remainder === 200 || remainder === 600
+}
+
+function countRevisedJulianLeapYears(year) {
+  const countRemainder = (remainder) => (
+    year < remainder
+      ? 0
+      : Math.floor((year - remainder) / 900) + 1
+  )
+
+  return (
+    Math.floor(year / 4) -
+    Math.floor(year / 100) +
+    countRemainder(200) +
+    countRemainder(600)
+  )
+}
+
+function daysBeforeRevisedJulianYear(year) {
+  const completedYears = year - 1
+  return 365 * completedYears + countRevisedJulianLeapYears(completedYears)
+}
+
+function daysBeforeGregorianYear(year) {
+  const completedYears = year - 1
+  return (
+    365 * completedYears +
+    Math.floor(completedYears / 4) -
+    Math.floor(completedYears / 100) +
+    Math.floor(completedYears / 400)
+  )
+}
+
+function dayOfGregorianYear(year, month, day) {
+  const monthLengths = [31, isGregorianLeapYear(year) ? 29 : 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
+  return monthLengths.slice(0, month - 1).reduce((total, length) => total + length, 0) + day
+}
+
+const REVISED_JULIAN_EPOCH_OFFSET =
+  daysBeforeGregorianYear(1923) - daysBeforeRevisedJulianYear(1923)
+
+export function getRevisedJulianDate(year, month, day) {
+  const absoluteDay = daysBeforeGregorianYear(year) + dayOfGregorianYear(year, month, day)
+  const revisedDay = absoluteDay - REVISED_JULIAN_EPOCH_OFFSET
+
+  let low = 1
+  let high = 10001
+
+  while (low + 1 < high) {
+    const middle = Math.floor((low + high) / 2)
+    if (daysBeforeRevisedJulianYear(middle) < revisedDay) low = middle
+    else high = middle
+  }
+
+  const revisedYear = low
+  let dayOfYear = revisedDay - daysBeforeRevisedJulianYear(revisedYear)
+  const monthLengths = [31, isRevisedJulianLeapYear(revisedYear) ? 29 : 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
+  let revisedMonth = 1
+
+  while (dayOfYear > monthLengths[revisedMonth - 1]) {
+    dayOfYear -= monthLengths[revisedMonth - 1]
+    revisedMonth += 1
+  }
+
+  return {
+    year: revisedYear,
+    month: revisedMonth,
+    day: dayOfYear,
+    formatted: `${dayOfYear} ${MONTHS[revisedMonth - 1]} ${revisedYear}`,
+  }
+}
+
+
+/* ========================================
    ISO Week Date
 ======================================== */
 
@@ -431,7 +513,7 @@ function getInternationalFixed(
   return {
 
     formatted:
-      `${IFC_MONTHS[monthIndex]} ${day}, ${year}`,
+      `${day} ${IFC_MONTHS[monthIndex]} ${year}`,
 
     meta:
       '13 × 28-day months',
@@ -864,6 +946,12 @@ function getUnixData(
 
   return {
 
+    seconds:
+      unixSeconds,
+
+    days:
+      unixDays,
+
     formatted:
       `${unixDays.toLocaleString(
         'en-US',
@@ -920,6 +1008,12 @@ function getGPSData(
 
     return {
 
+      week:
+        null,
+
+      dayOfWeek:
+        null,
+
       formatted:
         'Before GPS epoch',
 
@@ -950,6 +1044,10 @@ function getGPSData(
 
 
   return {
+
+    week,
+
+    dayOfWeek,
 
     formatted:
       `GPS Week ${week} · Day ${dayOfWeek}`,
@@ -1121,7 +1219,7 @@ function getFrenchRepublican(
     return {
 
       formatted:
-        `${republicanDay} ${REPUBLICAN_MONTHS[monthIndex]}, Year ${republicanYear}`,
+        `${republicanDay} ${REPUBLICAN_MONTHS[monthIndex]} ${republicanYear}`,
 
       meta:
         `Astronomical equinox method · ${yearLength}-day year`,
@@ -1146,7 +1244,7 @@ function getFrenchRepublican(
   return {
 
     formatted:
-      `${complementaryName}, Year ${republicanYear}`,
+      `${complementaryName} ${republicanYear}`,
 
     meta:
       `Complementary Day ${complementaryIndex + 1} · ${yearLength}-day year`,
@@ -1241,6 +1339,67 @@ export function getChronologyData({
       month,
       day,
     )
+
+
+  const date =
+    makeUTCDate(
+      year,
+      month,
+      day,
+    )
+
+
+  const calendarEraYear = (calendar) => {
+    const formatter =
+      new Intl.DateTimeFormat(
+        `en-US-u-ca-${calendar}`,
+        {
+          year: 'numeric',
+          timeZone: 'UTC',
+        },
+      )
+
+    const yearPart =
+      formatter
+        .formatToParts(date)
+        .find((part) => part.type === 'year')
+
+    return Number(yearPart?.value.replaceAll(',', ''))
+  }
+
+
+  const copticYear =
+    calendarEraYear('coptic')
+
+
+  const alexandrianNewYearPassed =
+    julian.month > 3 ||
+    (
+      julian.month === 3 &&
+      julian.day >= 25
+    )
+
+
+  const alexandrianYear =
+    julian.year +
+    (
+      alexandrianNewYearPassed
+        ? 5493
+        : 5492
+    )
+
+
+  const indictionCivilYear =
+    julian.month >= 9
+      ? julian.year + 1
+      : julian.year
+
+
+  const indiction =
+    mod(
+      indictionCivilYear + 2,
+      15,
+    ) + 1
 
 
   return [
@@ -1547,51 +1706,125 @@ export function getChronologyData({
 
 
     {
-      id:
-        'unix-date',
-
-      badge:
-        'COMPUTING',
-
-      family:
-        'Unix',
-
-      name:
-        'Unix Epoch',
-
-      value:
-        unix.formatted,
-
-      meta:
-        unix.meta,
-
-      description:
-        'Elapsed days and seconds from 1 January 1970 at 00:00 UTC.',
+      id: 'unix-time',
+      badge: 'COMPUTING',
+      family: 'Unix',
+      name: 'Unix Time / Unix Epoch',
+      value: `${unix.seconds.toLocaleString('en-US')} seconds`,
+      meta: 'At 00:00 UTC',
+      description: 'Elapsed seconds from 1 January 1970 at 00:00 UTC.',
     },
 
 
     {
-      id:
-        'gps-week',
-
-      badge:
-        'COMPUTING',
-
-      family:
-        'Navigation',
-
-      name:
-        'GPS Week',
-
-      value:
-        gps.formatted,
-
-      meta:
-        gps.meta,
-
-      description:
-        'GPS week-and-day count from the GPS epoch of 6 January 1980.',
+      id: 'unix-day-number',
+      badge: 'COMPUTING',
+      family: 'Unix',
+      name: 'Unix Day Number',
+      value: `${unix.days.toLocaleString('en-US')} days`,
+      meta: 'Unix epoch = day 0',
+      description: 'Whole civil days elapsed since 1 January 1970 at 00:00 UTC.',
     },
+
+
+    {
+      id: 'gps-week',
+      badge: 'NAVIGATION',
+      family: 'GPS',
+      name: 'GPS Week',
+      value: gps.week === null ? 'Before GPS epoch' : `GPS Week ${gps.week}`,
+      meta: gps.meta,
+      description: 'Continuous week count from the GPS epoch of 6 January 1980.',
+    },
+
+
+    {
+      id: 'gps-day',
+      badge: 'NAVIGATION',
+      family: 'GPS',
+      name: 'GPS Day',
+      value: gps.dayOfWeek === null ? 'Before GPS epoch' : `GPS Day ${gps.dayOfWeek}`,
+      meta: gps.dayOfWeek === null ? gps.meta : 'Sunday = day 0',
+      description: 'Day position within the current GPS week.',
+    },
+
+
+    {
+      id: 'seleucid-era',
+      badge: 'ERA',
+      family: 'Hellenistic',
+      name: 'Seleucid Era',
+      value: `${year + (julian.month >= 10 ? 312 : 311)} SE`,
+      meta: 'Proleptic Macedonian-style reckoning',
+      description: 'Year count from the Seleucid epoch using an autumn new-year reference.',
+    },
+
+
+    {
+      id: 'olympiad-dating',
+      badge: 'ERA',
+      family: 'Ancient Greek',
+      name: 'Olympiad Dating',
+      value: `Olympiad ${Math.floor(((month >= 7 ? year : year - 1) + 775) / 4) + 1} · year ${mod((month >= 7 ? year : year - 1) + 775, 4) + 1}`,
+      meta: 'Proleptic four-year cycle from 776 BCE',
+      description: 'Greek event dating expressed by Olympiad and year within the cycle.',
+    },
+
+
+    {
+      id: 'amazigh-era',
+      badge: 'ERA',
+      family: 'Amazigh',
+      name: 'Amazigh Era',
+      value: `${julian.year + 950} AM`,
+      meta: 'Modern era numbering on the Julian agricultural year',
+      description: 'Modern Amazigh year count associated with the North African agrarian calendar.',
+    },
+
+
+    {
+      id: 'alexandrian-era',
+      badge: 'ERA',
+      family: 'Alexandrian',
+      name: 'Alexandrian Era',
+      value: `${alexandrianYear} AM`,
+      meta: 'Annianus reckoning · 25 March new year',
+      description: 'Alexandrian creation era using the Annianus 5493 BCE epoch.',
+    },
+
+
+    {
+      id: 'indiction-cycle',
+      badge: 'CYCLE',
+      family: 'Roman / Byzantine',
+      name: 'Indiction Cycle',
+      value: `Indiction ${indiction}`,
+      meta: 'Fifteen-year cycle · September reckoning',
+      description: 'Recurring fifteen-year administrative cycle used in late Roman and Byzantine dating.',
+    },
+
+
+    {
+      id: 'era-of-martyrs',
+      badge: 'ERA',
+      family: 'Coptic',
+      name: 'Diocletian / Era of Martyrs',
+      value: `${copticYear} AM`,
+      meta: 'Coptic Anno Martyrum era',
+      description: 'Year count from the Diocletian epoch beginning in 284 CE.',
+    },
+
+
+    {
+      id: 'spanish-era',
+      badge: 'ERA',
+      family: 'Iberian',
+      name: 'Spanish Era',
+      value: `${julian.year + 38} Spanish Era`,
+      meta: 'Epoch: 1 January 38 BCE',
+      description: 'Historic Iberian year numbering, also called the Hispanic Era.',
+    },
+
 
   ]
 }

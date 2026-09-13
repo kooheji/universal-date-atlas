@@ -1,121 +1,86 @@
 export const CALENDARS = [
   {
     id: 'gregory',
-    name: 'Gregorian',
-    family: 'Civil',
-    badge: 'CALENDAR',
+    name: 'Gregorian Calendar',
+    family: 'Western Solar',
     description: 'Modern international civil calendar.',
   },
-
   {
     id: 'islamic-umalqura',
     name: 'Hijri — Umm al-Qura',
     family: 'Islamic',
-    badge: 'CALENDAR',
     description: 'Saudi Umm al-Qura calculated Hijri calendar.',
   },
-
   {
     id: 'islamic-civil',
-    name: 'Hijri — Civil',
+    name: 'Hijri — Civil / Tabular',
     family: 'Islamic',
-    badge: 'CALENDAR',
     description: 'Arithmetic tabular Islamic calendar.',
   },
-
-  {
-    id: 'islamic-tbla',
-    name: 'Hijri — Tabular',
-    family: 'Islamic',
-    badge: 'CALENDAR',
-    description: 'Tabular Islamic calendar using the astronomical epoch.',
-  },
-
   {
     id: 'persian',
     name: 'Persian / Solar Hijri',
     family: 'Iranian',
-    badge: 'CALENDAR',
     description: 'Solar calendar used officially in Iran.',
   },
-
   {
     id: 'hebrew',
-    name: 'Hebrew',
+    name: 'Hebrew Calendar',
     family: 'Jewish',
-    badge: 'CALENDAR',
     description: 'Traditional Hebrew lunisolar calendar.',
   },
-
   {
     id: 'chinese',
-    name: 'Chinese Traditional',
+    name: 'Chinese Traditional Calendar',
     family: 'East Asian',
-    badge: 'CALENDAR',
     description: 'Traditional Chinese lunisolar calendar.',
   },
-
   {
     id: 'dangi',
     name: 'Korean Dangi',
     family: 'East Asian',
-    badge: 'CALENDAR',
     description: 'Traditional Korean calendar representation.',
   },
-
   {
     id: 'japanese',
-    name: 'Japanese Era',
+    name: 'Japanese Imperial Calendar',
     family: 'East Asian',
-    badge: 'CALENDAR',
     description: 'Japanese imperial era calendar.',
   },
-
   {
     id: 'roc',
-    name: 'Minguo / ROC',
+    name: 'ROC / Minguo Calendar',
     family: 'East Asian',
-    badge: 'CALENDAR',
     description: 'Republic of China calendar.',
   },
-
-  {
-    id: 'buddhist',
-    name: 'Buddhist Era',
-    family: 'Buddhist',
-    badge: 'CALENDAR',
-    description: 'Buddhist calendar era numbering.',
-  },
-
   {
     id: 'indian',
     name: 'Indian National / Saka',
-    family: 'Indian',
-    badge: 'CALENDAR',
+    family: 'South Asian',
     description: 'Indian national civil calendar.',
   },
-
+  {
+    id: 'buddhist',
+    name: 'Thai Buddhist Calendar / Buddhist Era',
+    family: 'Buddhist',
+    description: 'Thai solar calendar using Buddhist Era year numbering.',
+  },
   {
     id: 'coptic',
-    name: 'Coptic',
-    family: 'Christian',
-    badge: 'CALENDAR',
+    name: 'Coptic Calendar',
+    family: 'Christian & Liturgical',
     description: 'Liturgical calendar of the Coptic tradition.',
   },
-
   {
     id: 'ethiopic',
-    name: 'Ethiopian',
-    family: 'Christian',
-    badge: 'CALENDAR',
-    description: 'Traditional Ethiopian calendar.',
+    name: 'Ethiopian Calendar',
+    family: 'Christian & Liturgical',
+    description: 'Ethiopian calendar using the Incarnation Era.',
   },
-
   {
     id: 'ethioaa',
     name: 'Ethiopic Amete Alem',
-    family: 'Christian',
-    badge: 'CALENDAR',
+    family: 'Christian & Liturgical',
     description: 'Ethiopic calendar using the Amete Alem era.',
   },
 ]

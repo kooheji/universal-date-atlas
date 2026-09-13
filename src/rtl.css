@@ -1,0 +1,160 @@
+:root[lang="ar"] {
+  font-family: Tahoma, Arial, "Noto Sans Arabic", sans-serif;
+}
+
+:root[lang="ar"] body {
+  text-align: right;
+}
+
+:root[lang="ar"] :is(.eyebrow, .section-label, .atlas-tab, .date-field > span, .date-field--location > label, .calendar-method, .tradition-kind, .fiction-family, .fiction-provenance) {
+  letter-spacing: 0;
+}
+
+:root[lang="ar"] .header-utilities,
+:root[lang="ar"] .section-heading,
+:root[lang="ar"] .calendar-family-heading,
+:root[lang="ar"] .atlas-footer {
+  direction: rtl;
+}
+
+:root[lang="ar"] .header-utilities {
+  right: auto;
+  left: var(--content-gutter);
+  align-items: flex-start;
+}
+
+:root[lang="ar"] .hero {
+  padding-right: 0;
+  padding-left: 220px;
+}
+
+:root[lang="ar"] .hero h1 {
+  direction: rtl;
+  unicode-bidi: isolate;
+}
+
+:root[lang="ar"] .date-controls input,
+:root[lang="ar"] .date-controls select,
+:root[lang="ar"] .location-control input {
+  text-align: right;
+}
+
+:root[lang="ar"] .date-controls input[type="number"],
+:root[lang="ar"] .sky-metric strong {
+  direction: ltr;
+  text-align: right;
+}
+
+:root[lang="ar"] .sky-group[data-sky-group="planets"] .sky-metric strong {
+  direction: rtl;
+  unicode-bidi: plaintext;
+  text-align: center;
+}
+
+:root[lang="ar"] :is(.date-profile-copy h2, .month-card-title, .converted-date, .culture-value, .fiction-value) {
+  direction: rtl;
+  unicode-bidi: plaintext;
+  text-align: right;
+}
+
+:root[lang="ar"] .fiction-value {
+  direction: ltr;
+  unicode-bidi: isolate;
+  text-align: right;
+}
+
+:root[lang="ar"] .calendar-card-symbol,
+:root[lang="ar"] .calendar-result-card > .calendar-card-symbol,
+:root[lang="ar"] .tradition-card > .calendar-card-symbol,
+:root[lang="ar"] .fiction-card > .calendar-card-symbol {
+  right: auto;
+  left: 10px;
+}
+
+:root[lang="ar"] .calendar-card .card-description,
+:root[lang="ar"] .fiction-card h4,
+:root[lang="ar"] .fiction-value,
+:root[lang="ar"] .fiction-description,
+:root[lang="ar"] .fiction-provenance,
+:root[lang="ar"] .tradition-card .card-description {
+  margin-right: 0;
+  margin-left: auto;
+}
+
+:root[lang="ar"] .sky-metric-symbol {
+  right: auto !important;
+  left: 10px;
+}
+
+:root[lang="ar"] :is(
+  .sky-group[data-sky-group="moon"],
+  .sky-group[data-sky-group="sun"],
+  .sky-group[data-sky-group="earth-time"],
+  .sky-group[data-sky-group="seasons"]
+) .sky-metric {
+  padding-right: 14px;
+  padding-left: 44px;
+}
+
+:root[lang="ar"] .calendar-family-index a::after {
+  direction: rtl;
+  white-space: nowrap;
+}
+
+:root[lang="ar"] .month-weekday {
+  padding-right: 2px;
+  padding-left: 2px;
+  font-size: clamp(.43rem, .7vw, .53rem);
+  letter-spacing: 0;
+  white-space: nowrap;
+}
+
+:root[lang="ar"] .profile-fact:first-child {
+  border-right: 1px solid var(--line);
+  border-left: 0;
+  border-radius: 0 8px 8px 0;
+}
+
+:root[lang="ar"] .profile-fact:last-child {
+  border-right: 0;
+  border-left: 1px solid var(--line);
+  border-radius: 8px 0 0 8px;
+}
+
+:root[lang="ar"] .location-control input {
+  border-radius: 0 8px 8px 0;
+}
+
+:root[lang="ar"] .date-controls .location-button {
+  border-right: 0;
+  border-left: 1px solid var(--line-strong);
+  border-radius: 8px 0 0 8px;
+}
+
+:root[lang="ar"] .calendar-family-index a:first-child::after {
+  right: 0;
+  left: auto;
+}
+
+:root[lang="ar"] .calendar-family-index a:last-child::after {
+  right: auto;
+  left: 0;
+}
+
+:root[lang="ar"] .culture-note {
+  padding-right: 16px;
+  padding-left: 0;
+  border-right: 2px solid #3c424c;
+  border-left: 0;
+}
+
+:root[data-theme="light"][lang="ar"] .culture-note {
+  border-right-color: #b4ab9d;
+}
+
+@media (max-width: 760px) {
+  :root[lang="ar"] .hero {
+    padding-left: 0;
+    padding-top: 58px;
+  }
+}
