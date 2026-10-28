@@ -7,6 +7,7 @@ import {
 
 export const PROVENANCE_AUTHORITY_VALUES = Object.freeze([
   'standard',
+  'computational-convention',
   'official-civil',
   'religious-traditional',
   'astronomical',
@@ -48,6 +49,11 @@ export const PROVENANCE_SOURCE_TYPES = Object.freeze([
   'institutional',
   'academic',
   'software',
+  'primary-historical',
+  'official-franchise',
+  'licensed-reference',
+  'specialist',
+  'community',
 ])
 
 const LAST_REVIEWED = '2026-10-28'
@@ -311,7 +317,7 @@ const manualEntries = [
   }),
   entry({
     id: 'rata-die',
-    authority: 'standard',
+    authority: 'computational-convention',
     method: 'algorithm',
     evidenceLevel: 'high',
     sources: [SOURCES.calendricalCalculations],
@@ -320,7 +326,7 @@ const manualEntries = [
   }),
   entry({
     id: 'lilian-day',
-    authority: 'standard',
+    authority: 'computational-convention',
     method: 'algorithm',
     evidenceLevel: 'high',
     sources: [SOURCES.ibmLilian],

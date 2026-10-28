@@ -28,7 +28,7 @@ The Atlas compares the same date across civil, religious, regional, historical, 
 - Andean
 - African traditional systems
 
-The **Al Zubarah & Bahrain Hijri** result is a Bahrain-focused computational model. It determines lunar-month starts from astronomical conjunction and a published Makkah sunset criterion requiring the whole lunar disc, rather than only its centre, to be above the horizon.
+The **Al Zubarah & Bahrain Hijri** result is a Bahrain-focused Hijri computational model using astronomical conjunction and a calculated Makkah horizon criterion. The current implementation requires the whole lunar disc, rather than only its centre, to be above the modelled horizon.
 
 > Calculated Hijri results are computational models. Official lunar observations may supersede calculated dates.
 

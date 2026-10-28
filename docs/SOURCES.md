@@ -25,6 +25,7 @@ Authority and method are deliberately separate. A historically attested calendar
 | Classification | Meaning |
 | --- | --- |
 | `standard` | Defined by an international, technical, or widely adopted computational standard. |
+| `computational-convention` | A defined computational day-count or technical convention that is documented and reproducible but is not itself an international or civil standard. |
 | `official-civil` | Used or defined by a civil authority. This does not imply religious authority. |
 | `religious-traditional` | Belongs to a religious calendrical or interpretive tradition. |
 | `astronomical` | Describes physical astronomical quantities or an explicit astronomical model. |
@@ -62,9 +63,27 @@ Authority and method are deliberately separate. A historically attested calendar
 | `low` | Some support exists, but important assumptions or the selected convention remain weakly documented. |
 | `under-review` | The implementation is inventoried, but a key citation or authority check is still missing. |
 
-An entry can contain sources and still be `under-review`. For example, Astronomy Engine supports the calculated lunar positions in a reconstruction, but it does not by itself establish that the reconstruction matches ancient administrative practice.
+`evidenceLevel` measures how well the recorded provenance supports the Atlas implementation and its stated method. It does **not** mean that a cultural belief, astrological interpretation, historical reconstruction, or fictional synchronization has been scientifically proven or made historically certain.
+
+An entry can contain sources and still be `under-review`. For example, Astronomy Engine can provide `high` implementation evidence for a calculated astronomical value, while a cultural interpretation using that value can remain `under-review`. Likewise, Astronomy Engine supports calculated lunar positions in a reconstruction, but it does not by itself establish that the reconstruction matches ancient administrative practice.
 
 ## Source policy
+
+Source objects use a controlled `type` value:
+
+| Source type | Intended use |
+| --- | --- |
+| `standard` | Published international or technical standard. |
+| `specification` | Formal technical specification or interface definition. |
+| `government` | Government, civil authority, or official public body. |
+| `institutional` | Museum, observatory, research institution, or similarly accountable organization. |
+| `academic` | Scholarly book, paper, critical edition, or academic research resource. |
+| `software` | The maintained software library or implementation used by the Atlas. |
+| `primary-historical` | Primary historical text, inscription, table, or archival record. |
+| `official-franchise` | Official fictional source material or material published by the rights holder. |
+| `licensed-reference` | Licensed reference work documenting fictional or other protected source material. |
+| `specialist` | Reputable specialist reference used when stronger primary or institutional material is unavailable. |
+| `community` | Community-maintained reference used only when stronger material is unavailable and the limitation is explicit. |
 
 The project prefers sources in this order:
 
@@ -173,8 +192,8 @@ These entries intentionally use `historical-reconstruction`, `reference-alignmen
 | ISO Ordinal Date | Gregorian year plus ordinal day. | [ISO 8601](https://www.iso.org/iso-8601-date-and-time-format.html). |
 | Julian Date | Continuous astronomical day count. | [U.S. Naval Observatory](https://aa.usno.navy.mil/data/JulianDate). |
 | Modified Julian Date | `JD − 2400000.5`. | [U.S. Naval Observatory](https://aa.usno.navy.mil/data/JulianDate). |
-| Rata Die | RD 1 = 1 January 1 Gregorian. | [Calendrical Calculations](https://reingold.co/calendars.shtml). |
-| Lilian Day | Day 1 = 15 October 1582 Gregorian. | [IBM CEE date API notes](https://www.ibm.com/support/pages/ile-cl-usage-cee-apis-ceedays-ceedate-ceedywk). |
+| Rata Die | Computational day-count convention; RD 1 = 1 January 1 Gregorian. | [Calendrical Calculations](https://reingold.co/calendars.shtml). |
+| Lilian Day | Computational day-count convention; day 1 = 15 October 1582 Gregorian. | [IBM CEE date API notes](https://www.ibm.com/support/pages/ile-cl-usage-cee-apis-ceedays-ceedate-ceedywk). |
 | Unix Time | Seconds since the POSIX epoch at 00:00 UTC. | [The Open Group: The Epoch](https://pubs.opengroup.org/onlinepubs/9799919799/basedefs/V1_chap04.html#tag_04_19). |
 | Unix Day Number | Atlas display derived by dividing the midnight Unix timestamp by 86,400. | Same epoch source; day-number display is an Atlas convention. |
 | GPS Week / GPS Day | Continuous full week count from 6 January 1980; Sunday is day 0. | [IS-GPS-200N](https://archive.gps.gov/technical/icwg/IS-GPS-200N.pdf). |

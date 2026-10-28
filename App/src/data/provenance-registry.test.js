@@ -65,8 +65,24 @@ for (const item of PROVENANCE_REGISTRY) {
 }
 
 assert.equal(getProvenance('gregory')?.evidenceLevel, 'high')
+assert.equal(getProvenance('rata-die')?.authority, 'computational-convention')
+assert.equal(getProvenance('rata-die')?.evidenceLevel, 'high')
+assert.equal(getProvenance('lilian-day')?.authority, 'computational-convention')
+assert.equal(getProvenance('lilian-day')?.evidenceLevel, 'high')
+assert.equal(getProvenance('bahrain-hijri')?.evidenceLevel, 'under-review')
 assert.ok(getSources('julian-day').length > 0)
 assert.ok(getSystemsByEvidenceLevel('under-review').length > 0)
+assert.equal(seenIds.size, PROVENANCE_REGISTRY.length, 'Every provenance id must be unique')
+
+for (const sourceType of [
+  'primary-historical',
+  'official-franchise',
+  'licensed-reference',
+  'specialist',
+  'community',
+]) {
+  assert.ok(allowedSourceTypes.has(sourceType), `Source vocabulary must include ${sourceType}`)
+}
 
 const implementedIds = new Set(getImplementedSystems().map(({ id }) => id))
 const missingProvenance = getSystemsMissingProvenance()
