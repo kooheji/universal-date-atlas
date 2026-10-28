@@ -7,13 +7,14 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "test": "npm run test:dates && npm run test:calendars && npm run test:fiction && npm run test:registry && npm run test:provenance",
+    "test": "npm run test:dates && npm run test:calendars && npm run test:fiction && npm run test:registry && npm run test:provenance && npm run test:assets",
     "test:browser": "playwright test",
     "test:dates": "node src/engine/utc-date.test.js",
     "test:calendars": "node src/engine/calendar-engine.test.js",
     "test:fiction": "node src/engine/fiction-engine.test.js",
     "test:registry": "node src/data/system-registry.test.js",
-    "test:provenance": "node src/data/provenance-registry.test.js"
+    "test:provenance": "node src/data/provenance-registry.test.js",
+    "test:assets": "node src/data/asset-provenance.test.js"
   },
   "devDependencies": {
     "@axe-core/playwright": "^4.11.0",
