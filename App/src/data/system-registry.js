@@ -1,5 +1,5 @@
-import { CALENDARS } from './calendars'
-import { FICTION_SYSTEMS } from './fiction-registry'
+import { CALENDARS } from './calendars.js'
+import { FICTION_SYSTEMS } from './fiction-registry.js'
 
 
 /*
@@ -289,10 +289,12 @@ const traditionSystems = [
 ].map((name) => ({
 
   id:
-    name
-      .toLowerCase()
-      .replaceAll(' ', '-')
-      .replaceAll('/', '-'),
+    name === 'Maya Calendar Round'
+      ? 'maya-calendar-round-tradition'
+      : name
+        .toLowerCase()
+        .replaceAll(' ', '-')
+        .replaceAll('/', '-'),
 
   name,
 
@@ -398,8 +400,6 @@ const additionalCalendars = [
 ======================================== */
 
 const plannedCalendars = [
-
-  ['maya-long-count', 'Maya Long Count', 'Maya'],
 
   ['geez', 'Geʽez Calendar', 'Ethiopian'],
 
