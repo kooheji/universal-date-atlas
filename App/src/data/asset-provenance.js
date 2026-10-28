@@ -4,30 +4,48 @@ export const ASSET_CATEGORIES = Object.freeze([
   'chronology-symbol',
   'tradition-symbol',
   'fiction-symbol',
+  'inline-symbol',
   'public-site-asset',
   'shared-icon-sprite',
 ])
 
-export const ASSET_ORIGINS = Object.freeze([
+export const ASSET_DESIGN_ORIGINS = Object.freeze([
   'project-original',
-  'project-original-historical-motif',
-  'project-original-generic-symbol',
-  'ai-assisted-reference',
-  'traced-redrawn',
-  'third-party',
+  'historical-traditional-motif',
+  'generic-symbol',
+  'national-civil-emblem',
   'franchise-related',
+  'third-party',
   'unknown',
 ])
 
 export const ASSET_CREATION_METHODS = Object.freeze([
   'manual-vector',
   'manual-drawing',
-  'ai-reference-then-redrawn',
-  'ai-generated-raster',
   'trace-from-reference',
   'programmatic',
   'generated-favicon',
+  'ai-generated-raster',
   'third-party-file',
+  'unknown',
+])
+
+export const ASSET_REFERENCE_INFLUENCES = Object.freeze([
+  'ai-generated-reference',
+  'historical-reference',
+  'cultural-reference',
+  'religious-reference',
+  'national-emblem-reference',
+  'franchise-reference',
+  'technical-reference',
+  'none-recorded',
+])
+
+export const ASSET_PROVENANCE_BASES = Object.freeze([
+  'owner-reported',
+  'repository-evidence',
+  'source-file-evidence',
+  'third-party-documentation',
   'unknown',
 ])
 
@@ -59,11 +77,16 @@ export const ASSET_REVIEW_CLASSIFICATIONS = Object.freeze([
 const LAST_REVIEWED = '2026-10-28'
 
 const asset = ({
+  id,
   path,
+  assetKind = 'file',
+  symbolId = '',
   category,
   subject,
-  origin,
+  designOrigin,
   creationMethod,
+  referenceInfluence = ['none-recorded'],
+  provenanceBasis = ['repository-evidence'],
   basedOn = '',
   rightsStatus,
   trademarkRisk = 'low',
@@ -72,11 +95,16 @@ const asset = ({
   notes = '',
   components = [],
 }) => Object.freeze({
+  id: id || path,
   path,
+  assetKind,
+  symbolId,
   category,
   subject,
-  origin,
+  designOrigin,
   creationMethod,
+  referenceInfluence: Object.freeze(referenceInfluence),
+  provenanceBasis: Object.freeze(provenanceBasis),
   basedOn,
   rightsStatus,
   trademarkRisk,
@@ -141,7 +169,7 @@ const CALENDAR_SUBJECTS = [
 ]
 
 const CALENDAR_GENERIC = new Set([3])
-const CALENDAR_CLOSE_REDRAWS = new Map([
+const CALENDAR_NATIONAL_EMBLEMS = new Map([
   [13, 'Imperial chrysanthemum motif'],
   [14, 'Republic of China White Sun emblem'],
   [15, 'Ashoka Chakra'],
@@ -149,32 +177,38 @@ const CALENDAR_CLOSE_REDRAWS = new Map([
 
 const calendarAssets = CALENDAR_SUBJECTS.map((subject, index) => {
   const number = index + 1
-  const closeRedraw = CALENDAR_CLOSE_REDRAWS.get(number)
+  const nationalEmblem = CALENDAR_NATIONAL_EMBLEMS.get(number)
   const generic = CALENDAR_GENERIC.has(number)
 
   return asset({
     path: numberedPath('calendar-symbols', 'calendars', index),
     category: 'calendar-symbol',
     subject,
-    origin: closeRedraw
-      ? 'traced-redrawn'
+    designOrigin: nationalEmblem
+      ? 'national-civil-emblem'
       : generic
-        ? 'project-original-generic-symbol'
-        : 'project-original-historical-motif',
-    creationMethod: closeRedraw ? 'trace-from-reference' : 'manual-vector',
-    basedOn: closeRedraw || `${subject} historical, religious, or cultural iconography`,
-    rightsStatus: closeRedraw
+        ? 'generic-symbol'
+        : 'historical-traditional-motif',
+    creationMethod: 'manual-vector',
+    referenceInfluence: nationalEmblem
+      ? ['ai-generated-reference', 'national-emblem-reference']
+      : generic
+        ? ['ai-generated-reference', 'technical-reference']
+        : ['ai-generated-reference', 'historical-reference', 'cultural-reference'],
+    provenanceBasis: ['owner-reported', 'source-file-evidence'],
+    basedOn: nationalEmblem || `${subject} historical, religious, or cultural iconography`,
+    rightsStatus: nationalEmblem
       ? 'review-required'
       : generic
         ? 'project-owned'
         : 'traditional-symbol-review',
-    trademarkRisk: closeRedraw ? 'review' : 'low',
-    reviewClassification: closeRedraw ? 'review' : 'low-risk',
-    notes: closeRedraw
-      ? 'The observed design closely follows a specific modern national or civil emblem; the source rendering and applicable emblem rules require review.'
+    trademarkRisk: nationalEmblem ? 'review' : 'low',
+    reviewClassification: nationalEmblem ? 'review' : 'low-risk',
+    notes: nationalEmblem
+      ? 'The owner reports manually creating the SVG in Adobe Illustrator. Its underlying design is a national or civil emblem, so source-rendering and applicable emblem rules still require review; AI-generated material was used only as design reference/inspiration.'
       : generic
-        ? 'A generic chronology icon exported from Adobe Illustrator; no third-party mark was identified.'
-        : 'A project vector rendering of a historical or traditional motif. Illustrator export metadata does not establish that every underlying rendering is unrestricted.',
+        ? 'The owner reports manually creating the vector in Adobe Illustrator, with AI-generated visual references used during ideation rather than traced into the final SVG.'
+        : 'The owner reports manually creating the vector in Adobe Illustrator. Historical/cultural and AI-generated references informed ideation; reference use is separate from final-file authorship.',
   })
 })
 
@@ -214,12 +248,18 @@ const chronologyAssets = CHRONOLOGY_SUBJECTS.map((subject, index) => {
     path: numberedPath('chronology-symbols', 'chronology', index),
     category: 'chronology-symbol',
     subject,
-    origin: unmapped
+    designOrigin: unmapped
       ? 'unknown'
       : historical
-        ? 'project-original-historical-motif'
-        : 'project-original-generic-symbol',
+        ? 'historical-traditional-motif'
+        : 'generic-symbol',
     creationMethod: 'manual-vector',
+    referenceInfluence: unmapped
+      ? ['ai-generated-reference']
+      : historical
+        ? ['ai-generated-reference', 'historical-reference']
+        : ['ai-generated-reference', 'technical-reference'],
+    provenanceBasis: ['owner-reported', 'source-file-evidence'],
     basedOn: unmapped
       ? 'Cross motif; no current mapping exists in src/ui/symbols.js'
       : historical
@@ -233,8 +273,8 @@ const chronologyAssets = CHRONOLOGY_SUBJECTS.map((subject, index) => {
     trademarkRisk: unmapped ? 'review' : 'low',
     reviewClassification: unmapped ? 'review' : 'low-risk',
     notes: unmapped
-      ? 'The file is committed and inventoried but is not selected by the current chronology SVG mapping. Subject and creation history need owner confirmation.'
-      : 'Adobe Illustrator export metadata supports project vector-file creation; the underlying motif classification is recorded separately.',
+      ? 'The owner reports manual Adobe Illustrator creation and AI-generated visual-reference use. The file is committed but is not selected by the current chronology SVG mapping, so its intended subject remains unknown.'
+      : 'The owner reports manual Adobe Illustrator creation; AI-generated material was used as visual reference/inspiration, not as the final artwork or a traced source.',
   })
 })
 
@@ -289,18 +329,22 @@ const traditionAssets = TRADITION_SUBJECTS.map((subject, index) => {
     path: numberedPath('tradition-symbols', 'tradition', index),
     category: 'tradition-symbol',
     subject,
-    origin: generic
-      ? 'project-original-generic-symbol'
-      : 'project-original-historical-motif',
+    designOrigin: generic
+      ? 'generic-symbol'
+      : 'historical-traditional-motif',
     creationMethod: 'manual-vector',
+    referenceInfluence: generic
+      ? ['ai-generated-reference', 'technical-reference']
+      : ['ai-generated-reference', 'cultural-reference'],
+    provenanceBasis: ['owner-reported', 'source-file-evidence'],
     basedOn: generic
       ? `${subject} generic numerical iconography`
       : `${subject} cultural, astronomical, or traditional motif`,
     rightsStatus: generic ? 'project-owned' : 'traditional-symbol-review',
     reviewClassification: generic ? 'low-risk' : 'review',
     notes: generic
-      ? 'A generic project vector for a calculated output.'
-      : 'A project vector rendering of traditional iconography. This does not establish the truth of the associated belief or unrestricted status of every modern rendering.',
+      ? 'The owner reports manually creating this generic vector in Adobe Illustrator, with AI-generated visual references used for ideation rather than tracing.'
+      : 'The owner reports manual Adobe Illustrator creation. Cultural and AI-generated references informed ideation; this does not make the final SVG AI-generated or establish that every underlying motif is unrestricted.',
   })
 })
 
@@ -337,24 +381,65 @@ const fictionAssets = FICTION_SUBJECTS.map(([subject, universe, likelyMark], ind
   path: numberedPath('fiction-symbols', 'fiction', index),
   category: 'fiction-symbol',
   subject,
-  origin: 'franchise-related',
+  designOrigin: 'franchise-related',
   creationMethod: 'manual-vector',
+  referenceInfluence: ['ai-generated-reference', 'franchise-reference'],
+  provenanceBasis: ['owner-reported', 'source-file-evidence'],
   basedOn: `${universe} visual identity or subject matter`,
   rightsStatus: likelyMark ? 'trademark-reference' : 'review-required',
   trademarkRisk: likelyMark ? 'high' : 'review',
   reviewClassification: likelyMark ? 'likely-franchise-mark' : 'review',
   notes: likelyMark
-    ? 'The vector appears to reproduce or closely redraw recognizable franchise or faction branding. Replace or obtain rights review before an open-source artwork release.'
-    : 'The symbol is franchise-related, but the current evidence does not establish whether it is official branding, an inspired design, or an original chronology-specific symbol.',
+    ? 'The owner manually created the SVG in Adobe Illustrator, using AI-generated and franchise references for ideation. Manual authorship does not remove the rights risk created by recognizable franchise or faction branding.'
+    : 'The owner manually created the SVG in Adobe Illustrator, using AI-generated and franchise references for ideation. The current evidence does not establish whether the design is official branding, inspired artwork, or an original chronology-specific symbol.',
 }))
+
+const inlineAssets = [
+  asset({
+    id: 'src/ui/symbols.js#MENORAH',
+    path: 'src/ui/symbols.js',
+    assetKind: 'inline',
+    symbolId: 'MENORAH',
+    category: 'inline-symbol',
+    subject: 'Hebrew calendar menorah drawing',
+    designOrigin: 'historical-traditional-motif',
+    creationMethod: 'manual-vector',
+    referenceInfluence: ['historical-reference', 'religious-reference', 'cultural-reference'],
+    provenanceBasis: ['source-file-evidence'],
+    basedOn: 'Menorah religious and historical iconography',
+    rightsStatus: 'traditional-symbol-review',
+    trademarkRisk: 'low',
+    reviewClassification: 'review',
+    notes: 'Inline SVG path artwork embedded in src/ui/symbols.js. It is inventoried without moving or changing the drawing.',
+  }),
+  asset({
+    id: 'src/ui/symbols.js#ROMAN_EAGLE',
+    path: 'src/ui/symbols.js',
+    assetKind: 'inline',
+    symbolId: 'ROMAN_EAGLE',
+    category: 'inline-symbol',
+    subject: 'Roman Republican eagle drawing',
+    designOrigin: 'historical-traditional-motif',
+    creationMethod: 'manual-vector',
+    referenceInfluence: ['historical-reference', 'cultural-reference'],
+    provenanceBasis: ['source-file-evidence'],
+    basedOn: 'Roman eagle historical iconography',
+    rightsStatus: 'traditional-symbol-review',
+    trademarkRisk: 'low',
+    reviewClassification: 'review',
+    notes: 'Inline SVG path artwork embedded in src/ui/symbols.js. It is inventoried without moving or changing the drawing.',
+  }),
+]
 
 const projectAndPublicAssets = [
   asset({
     path: 'src/assets/fiction-symbols/ninxa.svg',
     category: 'fiction-symbol',
     subject: 'NINXA Impratoria — AHDM Chronology',
-    origin: 'project-original',
+    designOrigin: 'project-original',
     creationMethod: 'manual-vector',
+    referenceInfluence: ['none-recorded'],
+    provenanceBasis: ['owner-reported', 'source-file-evidence'],
     basedOn: 'NINXA project-canon insignia',
     rightsStatus: 'project-owned',
     trademarkRisk: 'low',
@@ -365,8 +450,10 @@ const projectAndPublicAssets = [
     path: 'public/favicon.svg',
     category: 'project-branding',
     subject: 'Universal Chronology Atlas favicon master',
-    origin: 'project-original-generic-symbol',
+    designOrigin: 'project-original',
     creationMethod: 'programmatic',
+    referenceInfluence: ['none-recorded'],
+    provenanceBasis: ['repository-evidence'],
     basedOn: 'Generic globe, orbit, and atlas motif',
     rightsStatus: 'project-owned',
     trademarkRisk: 'low',
@@ -384,8 +471,10 @@ const projectAndPublicAssets = [
     path,
     category: 'project-branding',
     subject,
-    origin: 'project-original-generic-symbol',
+    designOrigin: 'project-original',
     creationMethod: 'generated-favicon',
+    referenceInfluence: ['none-recorded'],
+    provenanceBasis: ['repository-evidence'],
     basedOn: 'Universal Chronology Atlas favicon master',
     rightsStatus: 'project-owned',
     trademarkRisk: 'low',
@@ -397,8 +486,10 @@ const projectAndPublicAssets = [
     path: 'public/og-image.png',
     category: 'public-site-asset',
     subject: 'Universal Chronology Atlas social preview artwork',
-    origin: 'ai-assisted-reference',
+    designOrigin: 'unknown',
     creationMethod: 'ai-generated-raster',
+    referenceInfluence: ['none-recorded'],
+    provenanceBasis: ['repository-evidence'],
     basedOn: 'Atlas branding, globe, astronomical diagrams, architecture, and cultural symbols',
     rightsStatus: 'review-required',
     trademarkRisk: 'review',
@@ -409,8 +500,10 @@ const projectAndPublicAssets = [
     path: 'public/icons.svg',
     category: 'shared-icon-sprite',
     subject: 'Shared footer and social icon sprite',
-    origin: 'third-party',
+    designOrigin: 'third-party',
     creationMethod: 'third-party-file',
+    referenceInfluence: ['none-recorded'],
+    provenanceBasis: ['source-file-evidence'],
     basedOn: 'Bluesky, Discord, GitHub, and X marks plus generic documentation/social icons',
     rightsStatus: 'trademark-reference',
     trademarkRisk: 'high',
@@ -432,15 +525,16 @@ export const ASSET_PROVENANCE = Object.freeze([
   ...chronologyAssets,
   ...traditionAssets,
   ...fictionAssets,
+  ...inlineAssets,
   ...projectAndPublicAssets,
 ])
 
-export function getAssetProvenance(path) {
-  return ASSET_PROVENANCE.find((entry) => entry.path === path) || null
+export function getAssetProvenance(idOrPath) {
+  return ASSET_PROVENANCE.find((entry) => entry.id === idOrPath || entry.path === idOrPath) || null
 }
 
-export function getAssetsByOrigin(origin) {
-  return ASSET_PROVENANCE.filter((entry) => entry.origin === origin)
+export function getAssetsByDesignOrigin(designOrigin) {
+  return ASSET_PROVENANCE.filter((entry) => entry.designOrigin === designOrigin)
 }
 
 export function getAssetsByRightsStatus(rightsStatus) {

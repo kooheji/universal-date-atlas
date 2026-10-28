@@ -5,7 +5,8 @@ This review is a release checklist, not legal advice. No project license has bee
 ## Current status
 
 - The public repository has no root `LICENSE` file. Until one is added, copyright law reserves reuse rights even though the source is publicly visible.
-- The asset manifest inventories all 146 committed SVG/PNG/ICO files under `App/src/assets/` and `App/public/`. Seventeen are marked `likely-franchise-mark`, 13 have `review-required` rights status, and one retains unknown origin/rights. See [`docs/ASSETS.md`](../docs/ASSETS.md).
+- The asset manifest inventories all 146 committed SVG/PNG/ICO files under `App/src/assets/` and `App/public/` plus the two inline SVG drawings in `src/ui/symbols.js`. Seventeen records are marked `likely-franchise-mark`, 13 have `review-required` rights status, two have unknown design origin, and one has unknown rights status. See [`docs/ASSETS.md`](../docs/ASSETS.md).
+- The owner reports manually creating the numbered SVGs in Adobe Illustrator while consulting AI-generated renders for visual reference, inspiration, and ideation. The manifest records `manual-vector` creation separately from `ai-generated-reference` influence; it does not treat reference use as AI-generated final artwork or tracing.
 - The favicon family is recorded as one project master plus six generated derivatives. The social preview has an AI-assisted/generative workflow strongly indicated but no model, prompt, or source-reference history recorded. The shared icon sprite includes third-party social marks.
 - Fictional universe names, symbols, terminology, and chronology descriptions may involve third-party copyright or trademark interests. Factual references and interoperability do not automatically grant rights to reproduce artwork or protected branding.
 - The astronomical and historical conversion rules should retain source citations and distinguish standards, reconstructions, project conventions, and unofficial models.
