@@ -52,7 +52,7 @@ Then open the local address printed by Vite.
 ```bash
 cd App
 
-# Date, calendar, and fiction regression suites
+# Engine and registry regression suites
 npm test
 
 # Production build
@@ -89,6 +89,10 @@ Not every result has the same authority. The interface distinguishes standard co
 Date-only astronomy is evaluated at **12:00 UTC**. Optional time input is UTC. Observer-dependent calculations accept **latitude and longitude coordinates**, not city names.
 
 Calculated Hijri results are computational models. Official lunar observations may supersede them.
+
+## Methodology and sources
+
+See [Methodology and sources](docs/SOURCES.md) for the provenance model, evidence levels, implementation assumptions, source catalogue, and the explicit research backlog. The catalogue distinguishes standards, official calendars, astronomical models, historical reconstructions, cultural interpretations, and Atlas synchronization conventions.
 
 ## Contributing
 
