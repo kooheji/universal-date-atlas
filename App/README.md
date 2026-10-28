@@ -28,7 +28,7 @@ The Atlas compares the same date across civil, religious, regional, historical, 
 - Andean
 - African traditional systems
 
-The **Al Zubarah & Bahrain Hijri** result is a Bahrain-focused computational model. It determines lunar-month starts from astronomical conjunction and a published Makkah sunset criterion requiring the whole lunar disc, rather than only its centre, to be above the horizon.
+The **Al Zubarah & Bahrain Hijri** result is a Bahrain-focused Hijri computational model using astronomical conjunction and a calculated Makkah horizon criterion. The current implementation requires the whole lunar disc, rather than only its centre, to be above the modelled horizon.
 
 > Calculated Hijri results are computational models. Official lunar observations may supersede calculated dates.
 
@@ -161,6 +161,10 @@ The code also treats these as separate concerns:
 
 That separation is deliberate: an astronomical coordinate, a religious calendar model, a folkloric association, and a fictional era conversion answer different questions and should not inherit one another's authority.
 
+## Methodology and sources
+
+The repository-level [Methodology and sources](../docs/SOURCES.md) catalogue records authority classifications, calculation methods, evidence levels, implementation assumptions, verified source links, and systems still awaiting research. It keeps historical or fictional source authority separate from reconstruction choices and Atlas-created synchronization bridges.
+
 ## Technology
 
 Universal Chronology Atlas is a framework-free JavaScript application built with:
@@ -220,15 +224,17 @@ npm run preview
 
 ## Tests
 
-The repository provides three engine regression commands:
+The repository provides engine and registry regression commands:
 
 ```bash
 npm run test:dates
 npm run test:calendars
 npm run test:fiction
+npm run test:registry
+npm run test:provenance
 ```
 
-Run the complete regression suite with `npm test`. GitHub Actions runs all three suites and a production build on pushes and pull requests.
+Run the complete regression suite with `npm test`. GitHub Actions runs the complete suite and a production build on pushes and pull requests.
 
 After installing the Playwright Chromium browser, run production-build responsive, keyboard, RTL, and axe checks with `npm run test:browser`.
 

@@ -107,6 +107,20 @@ const chronologySystems = [
   },
 
   {
+    id: 'julian-day',
+    name: 'Julian Day',
+    category: 'chronology',
+    family: 'Astronomical',
+  },
+
+  {
+    id: 'modified-julian-day',
+    name: 'Modified Julian Day',
+    category: 'chronology',
+    family: 'Astronomical',
+  },
+
+  {
     id: 'rata-die',
     name: 'Rata Die',
     category: 'chronology',
